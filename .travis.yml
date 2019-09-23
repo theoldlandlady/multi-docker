@@ -16,10 +16,10 @@ after_success:
   - docker build -t simgesc/multi-worker ./worker
 
 # Login to the docker CLI
-- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
 # Take those images and push them to Docker hub
-- docker push simgesc/multi-client
-- docker push simgesc/multi-nginx
-- docker push simgesc/multi-server
-- docker push simgesc/multi-worker
+  - docker push simgesc/multi-client
+  - docker push simgesc/multi-nginx
+  - docker push simgesc/multi-server
+  - docker push simgesc/multi-worker

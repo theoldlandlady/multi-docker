@@ -1,0 +1,23 @@
+sudo: required
+services:
+ - docker
+
+before_install:
+  - docker build -t simgesc/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true simgesc/react-test npm test
+
+after_success:
+  - docker build -t simgesc/multi-client ./client
+  - docker build -t simgesc/multi-nginx ./nginx
+  - docker build -t simgesc/multi-server ./server
+  - docker build -t simgesc/multi-worker ./worker
+
+# Login to the docker CLI
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+# Take those images and push them to Docker hub
+- docker push simgesc/multi-client
+- docker push simgesc/multi-nginx
+- docker push simgesc/multi-server
+- docker push simgesc/multi-worker
